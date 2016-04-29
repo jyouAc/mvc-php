@@ -1,9 +1,9 @@
 <?php
 return [
 	    'database_type' => 'mysql',
-	    'database_name' => 'learn',
+	    'database_name' => '',
 	    'server' => 'localhost',
 	    'username' => 'root',
-	    'password' => '123456',
+	    'password' => '',
 	    'charset' => 'utf8'
 	];
