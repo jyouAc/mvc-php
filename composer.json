@@ -7,6 +7,7 @@
         "files": ["Core/helper.php"]
 	},
 	"require": {
-		"catfan/Medoo": "^1.0"
+		"catfan/Medoo": "^1.0",
+		"illuminate/database": "*"
 	}
 }

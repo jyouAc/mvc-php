@@ -1,5 +1,6 @@
 <?php
 namespace Core;
+use Core\Config;
 
 Class Route
 {
@@ -8,6 +9,7 @@ Class Route
 		'GET' => array(),
 		'POST' => array()
 		);
+	private static $middleware = array();
 
 	public static function __callStatic($method, $param)
 	{
@@ -40,6 +42,9 @@ Class Route
 			if(!isset($callback[0])) {
 				throw new Exception("empty controller error");
 			}
+
+			$request = self::handleMiddleware($request);
+
 			$controller = self::getController($callback[0]);
 			$controller->request = $request;
 			$controller->response = new Response();
@@ -66,6 +71,23 @@ Class Route
 		$controller = new $namespace;
 		
 		return $controller;
+	}
+
+	protected static function handleMiddleware($request)
+	{
+		$middlewares = Config::get('Middleware');
+		$pre = null;
+		foreach ($middlewares as $middleware) {
+			$m = new $middleware;
+			$m->setNext($pre);
+			$pre = $m;
+		}
+		return $m->handle($request);
+	}
+
+	private static function addMiddleware(Middleware $middleware)
+	{
+
 	}
 
 }
