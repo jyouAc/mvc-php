@@ -31,11 +31,11 @@ class Controller
 
 	private function db()
 	{
-		if($this->db == null) {
-			$db_config = Config::get('database');
-			$this->db = new \medoo($db_config);
-		}
-		return $this->db;
+		// if($this->db == null) {
+		// 	$db_config = Config::get('database');
+		// 	$this->db = new \medoo($db_config);
+		// }
+		// return $this->db;
 	}
 
 }

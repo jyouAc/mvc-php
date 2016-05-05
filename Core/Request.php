@@ -5,9 +5,9 @@ use Core\Contracts\Request as RequestContracts;
 class Request implements RequestContracts
 {
 
-	public $get_data;
+	public $get;
 
-	public $post_data;
+	public $post;
 
 	public $path;
 
@@ -15,8 +15,8 @@ class Request implements RequestContracts
 
 	public function __construct()
 	{
-		$this->get_data = $_GET;
-		$this->post_data = $_POST;
+		$this->get = $_GET;
+		$this->post = $_POST;
 		$this->path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 		$this->method = $_SERVER['REQUEST_METHOD'];
 	}
@@ -24,12 +24,12 @@ class Request implements RequestContracts
 
 	public function input($name)
 	{
-		if(isset($this->get_data[$name])) {
-			return $this->get_data[$name];
+		if(isset($this->get[$name])) {
+			return $this->get[$name];
 		}
 
-		if(isset($this->post_data[$name])) {
-			return $this->post_data[$name];
+		if(isset($this->post[$name])) {
+			return $this->post[$name];
 		}
 
 		return null;

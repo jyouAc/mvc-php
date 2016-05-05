@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller\Admin;
 use Core\Controller;
+use Core\Db;
 
 class AdminController extends Controller
 {
@@ -9,7 +10,7 @@ class AdminController extends Controller
 		$this->view('admin.home')
 			 ->withTitle('this is a title!')
 			 ->withBody('body content!')
-			 ->withPages($this->Db->select('pages', '*'))
+			 ->withPages(Db::query('select * from pages'))
 			 ->show();
 	}
 }

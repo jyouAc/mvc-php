@@ -84,10 +84,4 @@ Class Route
 		}
 		return $m->handle($request);
 	}
-
-	private static function addMiddleware(Middleware $middleware)
-	{
-
-	}
-
 }
