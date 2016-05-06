@@ -1,5 +1,6 @@
 <?php
 namespace Core;
+use Core\Db;
 
 class Controller
 {
@@ -31,11 +32,7 @@ class Controller
 
 	private function db()
 	{
-		// if($this->db == null) {
-		// 	$db_config = Config::get('database');
-		// 	$this->db = new \medoo($db_config);
-		// }
-		// return $this->db;
+		return Db::connect();
 	}
 
 }
