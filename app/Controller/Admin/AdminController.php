@@ -8,18 +8,28 @@ class AdminController extends Controller
 	{
 
 		$this->db
-			->table('pages')
-			->where('id', 5)
-			->getSql(true)
-			->data(array('title' => 'title0.0', 'body' => 'body85'))
-			->update();
+				->table('pages')
+				->where('title', 'title5')
+				->getSql(true)
+				->delete();
 
 		$this->db
 			->table('pages')
-			->where('id', 5)
-			->field('p.id,title,body')
+			->where('id', 17)
 			->getSql(true)
-			->select();
+			->data(array('title' => 4, 'body' => 'body85', 'slug' => 'slug'))
+			->update();
+
+		$this->db
+			->table(array('pages' => 'p'))
+	 		->join(array('users' => 'u'), 'p.user_id=u.id')
+	 		->field('p.id,title,body')
+	 		->where('p.id', '>', 3)
+	 		->where('user_id', 1)
+	 		->where('title', 'like', "'%4%'")
+	 		->order('p.body')
+	 		->limit(4)
+	 		->select();
 
 		$this->db
 			->table('pages')
@@ -34,15 +44,9 @@ class AdminController extends Controller
 			 ->withBody('body content!')
 			 ->withPages(
 			 		$this->db
-			 		->table(array('pages' => 'p'))
-			 		->join(array('users' => 'u'), 'p.user_id=u.id')
-			 		->field('p.id,title,body')
-			 		->where('p.id', '>', 3)
-			 		->where('user_id', 1)
-			 		->where('title', 'like', "'%4%'")
-			 		->order('p.body')
-			 		->limit(4)
-			 		->select()
+				 		->table('pages')
+						->field('id,title,body')
+						->select()
 			 	)
 			 ->show();
 	}

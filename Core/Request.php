@@ -35,19 +35,4 @@ class Request implements RequestContracts
 		return null;
 	}
 
-	// public function getGetData()
-	// {
-	// 	return $this->getData;
-	// }
-
-	// public function getPostData()
-	// {
-	// 	return $this->postData;
-	// }
-
-	// public function getPath()
-	// {
-	// 	return $this->path;
-	// }
-
 }

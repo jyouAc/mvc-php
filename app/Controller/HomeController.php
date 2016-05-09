@@ -9,7 +9,7 @@ class HomeController extends Controller
 		$this->view('index')
 			 ->withTitle('this is a title!')
 			 ->withBody('body content!')
-			 ->withPages($this->Db->select('pages', '*'))
+			 // ->withPages($this->Db->select('pages', '*'))
 			 ->show();
 	}
 }

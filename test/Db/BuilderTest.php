@@ -8,13 +8,19 @@ use Core\Db;
 class BuilderTest extends PHPUnit_Framework_TestCase
 {
 
+	protected static $builder = null;
+
+    public static function setUpBeforeClass()
+    {
+        self::$builder = new Builder(Db::connect());
+    }
+
 	/**
      * @dataProvider parseTableProvider
      */
 	public function testParseTable($tables, $expected)
 	{
-		$builder = new Builder(Db::connect());
-		$tables_str = $builder->parseTable($tables);
+		$tables_str = self::$builder->parseTable($tables);
 		$this->assertEquals($expected, $tables_str);
 	}
 
@@ -33,8 +39,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase
      */
 	public function testParseJoin($joins, $expected)
 	{
-		$builder = new Builder(Db::connect());
-		$join_str = $builder->parseJoin($joins);
+		$join_str = self::$builder->parseJoin($joins);
 		$this->assertEquals($expected, $join_str);
 	}
 
@@ -60,8 +65,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase
      */
 	public function testParseField($fields, $expected)
 	{
-		$builder = new Builder(Db::connect());
-		$fields_str = $builder->parseField($fields);
+		$fields_str = self::$builder->parseField($fields);
 		$this->assertEquals($expected, $fields_str);
 	}
 
@@ -81,8 +85,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase
      */
 	public function testSelect($options, $expected)
 	{
-		$builder = new Builder(Db::connect());
-		$sql = $builder->select($options);
+		$sql = self::$builder->select($options);
 		$this->assertEquals($expected, $sql);
 	}
 
@@ -98,8 +101,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testParseWhere($wheres, $expected)
 	{
-		$builder = new Builder(Db::connect());
-		$where = $builder->parseWhere($wheres);
+		$where = self::$builder->parseWhere($wheres);
 		$this->assertEquals($expected, $where);
 	}
 
@@ -107,7 +109,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase
 	{
 		return array(
 			array(
-				array(array('id', '>', 3), array('user_id', '=', 1), array('title', 'like', "'%4%'")), 
+				array(array('id', '>', 3), array('user_id', '=', 1), array('title', 'like', '%4%')), 
 				' WHERE (id > 3) AND (user_id = 1) AND (title like \'%4%\') '
 			)
 		);
@@ -118,8 +120,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testParseLimit($limits, $expected)
 	{
-		$builder = new Builder(Db::connect());
-		$limit = $builder->parseLimit($limits);
+		$limit = self::$builder->parseLimit($limits);
 		$this->assertEquals($expected, $limit);
 	}
 
@@ -137,8 +138,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testParseGroup($groups, $expected)
 	{
-		$builder = new Builder(Db::connect());
-		$groupBy = $builder->parseGroup($groups);
+		$groupBy = self::$builder->parseGroup($groups);
 		$this->assertEquals($expected, $groupBy);
 	}
 
@@ -155,8 +155,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testParseOrder($orders, $expected)
 	{
-		$builder = new Builder(Db::connect());
-		$orderBy = $builder->parseOrder($orders);
+		$orderBy = self::$builder->parseOrder($orders);
 		$this->assertEquals($expected, $orderBy);
 	}
 

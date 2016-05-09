@@ -79,7 +79,7 @@ abstract class Builder
             return '';
         }
         foreach ($data as $key => $val) {
-            $set[] = $key . '=' . $val;
+            $set[] = $key . '=' . $this->formatData($val);
         }
 		$sql = str_replace(
 			['%TABLE%', '%SET%', '%JOIN%', '%WHERE%', '%ORDER%', '%LIMIT%', '%LOCK%', '%COMMENT%'],
@@ -190,6 +190,7 @@ abstract class Builder
 	{
 		$where_str = '';
 		foreach ((array)$wheres as $key => $where) {
+			$where[2] = $this->formatData($where[2]);
 			$where_str .= 'AND (' . implode(' ', $where) . ') ';
 		}
 		$where_str = substr($where_str, 4);
@@ -260,9 +261,17 @@ abstract class Builder
 			return '';
 		}
 		foreach ((array)$values as $value) {
-			$res[] = '(' . implode(',', $value) . ')'; 
+			$res[] = '(' . implode(',', array_map(array($this, 'formatData'), $value)) . ')'; 
 		}
 		return implode(' , ', $res);
+	}
+
+	protected function formatData($data)
+	{
+		if(is_string($data) && substr($data, 0, 1) != "'") {
+        		$data = "'" . $data . "'";
+        }
+        return $data;
 	}
 
 	public function parseUnion($unions)
