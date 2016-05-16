@@ -1,17 +1,25 @@
 <?php
 namespace App\Controller\Admin;
+
 use Core\Controller;
+
+use App\Model\Page;
 
 class AdminController extends Controller
 {
+
 	public function index()
 	{
+		$page = new Page();
+		$page->setTable('pages');
+		echo json_encode($page->find(3));exit;
 
-		$this->db
+		 $this->db
 				->table('pages')
-				->where('title', 'title5')
+				->where('id', 2)
+				// ->where('title', 'title5')
 				->getSql(true)
-				->delete();
+				->delete();exit;
 
 		$this->db
 			->table('pages')

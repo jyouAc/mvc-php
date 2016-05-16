@@ -35,7 +35,7 @@ Class Route
 
 		$callback = self::$methods[$request->method][$request->path];
 		if($callback instanceof \Closure) {
-			$view = call_user_func_array($callback, array($request, new Response()));
+			call_user_func_array($callback, array($request, new Response()));
 		} else {
 			$callback =  explode('@', $callback);
 
@@ -51,11 +51,7 @@ Class Route
 
 			$action = isset($callback[1]) ? $callback[1] : DEFALULT_ACTION;
 
-			$view = call_user_func_array(array($controller, $action), array());
-
-		}
-
-		if($view instanceof View) {
+			call_user_func_array(array($controller, $action), array());
 
 		}
 	}

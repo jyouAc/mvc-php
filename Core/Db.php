@@ -15,8 +15,14 @@ class Db
     // 执行次数
     public static $executeTimes = 0;
 
+    public static $config = null;
+
 	public static function connect($config = [])
 	{
+		if(empty($config)) {
+			$config = self::getDbConfig();
+		}
+
 		$md5 = md5(serialize($config));
 
 		if (!isset(self::$instances[$md5])) {
@@ -45,6 +51,27 @@ class Db
 		}
 
 		return $config;
+	}
+
+	public static function getDbConfig()
+	{
+		if(empty(self::$config)) {
+			self::setDbConfig();
+		}
+		return self::$config;
+	}
+
+	public static function setDbConfig($database_name = 'database')
+	{
+		if(empty(self::$config) || is_string($database_name)) {
+			self::$config = Config::get($database_name);
+			return true;
+		}
+		if(is_array($database_name)) {
+			$this->config = $database_name;
+			return true;
+		}
+		return false;
 	}
 
 	public static function parseDsn($config)

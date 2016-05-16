@@ -22,8 +22,12 @@ class Request implements RequestContracts
 	}
 
 
-	public function input($name)
+	public function input($name = null)
 	{
+		if(empty($name)) {
+			return array_merge($this->get, $this->post);
+		}
+		
 		if(isset($this->get[$name])) {
 			return $this->get[$name];
 		}
