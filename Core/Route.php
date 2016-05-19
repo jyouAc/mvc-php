@@ -27,23 +27,26 @@ Class Route
 
 	public static function dispatch()
 	{
+		Logger::info('router dispatch start', self::$methods);
 		$request = new Request();
-		
 		if(!isset(self::$methods[$request->method][$request->path])) {
+			Logger::error($request->method . $request->path . ' not found');
 			self::notfound();
 		}
 
 		$callback = self::$methods[$request->method][$request->path];
+		$request = self::handleMiddleware($request);
+
+		Logger::info('controller start');
 		if($callback instanceof \Closure) {
 			call_user_func_array($callback, array($request, new Response()));
 		} else {
 			$callback =  explode('@', $callback);
 
 			if(!isset($callback[0])) {
+				Logger::error('empty controller error');
 				throw new Exception("empty controller error");
 			}
-
-			$request = self::handleMiddleware($request);
 
 			$controller = self::getController($callback[0]);
 			$controller->request = $request;
@@ -72,12 +75,14 @@ Class Route
 	protected static function handleMiddleware($request)
 	{
 		$middlewares = Config::get('Middleware');
+		Logger::info('handle Middleware start', $middlewares);
 		$pre = null;
 		foreach ($middlewares as $middleware) {
 			$m = new $middleware;
 			$m->setNext($pre);
 			$pre = $m;
 		}
+		Logger::info('handle Middleware end');
 		return $m->handle($request);
 	}
 }

@@ -8,5 +8,6 @@
         "files": ["Core/helper.php"]
 	},
 	"require": {
+		"psr/log": "1.0.0"
 	}
 }

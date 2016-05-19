@@ -9,4 +9,8 @@ if(DEBUG) {
     set_exception_handler('exception_handler');
 }
 
+class_alias('\Core\Logger', 'Logger', true);
+
+Logger::createLogger('system', __APP__ . '/logs');
+
 require_once __DIR__ . '/../app/routes.php';
